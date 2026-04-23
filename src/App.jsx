@@ -20,10 +20,10 @@ function App() {
     setContrastInput(event.target.value);
   }
 
-  function Click() {
+  function Click(event) {
     event.preventDefault();
     const newColor = {
-      id: crypto.randomUUID,
+      id: Date.now().toString(),
       role: roleInput,
       hex: hexInput,
       contrast: contrastInput,
@@ -34,6 +34,17 @@ function App() {
     setContrastInput("#ffffff");
     setHexInput("#123456");
     setRoleInput("some color");
+  }
+
+  function DeleteButton(id) {
+    console.log("deleting id", id);
+    setColors((prevColors) => {
+      const filtered = prevColors.filter(
+        (color) => String(color.id) !== String(id),
+      );
+      console.log("New list will be:", filtered);
+      return filtered;
+    });
   }
 
   return (
@@ -61,6 +72,7 @@ function App() {
           role={color.role}
           contrastsText={color.contrastText}
           key={color.id}
+          clickDelete={() => DeleteButton(color.id)}
         />
       ))}
     </>
