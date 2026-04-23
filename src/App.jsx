@@ -6,7 +6,15 @@ function App() {
   return (
     <>
       <h1>Theme Creator</h1>
-      // display colors here
+      {initialColors.map((color) => (
+        <Color
+          style={{ backgroundColor: color.hex }}
+          hex={color.hex}
+          role={color.role}
+          contrastsText={color.contrastText}
+          key={color.id}
+        />
+      ))}
     </>
   );
 }
