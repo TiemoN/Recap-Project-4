@@ -9,6 +9,9 @@ function App() {
   let [roleInput, setRoleInput] = useState("");
   let [hexInput, setHexInput] = useState("#123456");
   let [contrastInput, setContrastInput] = useState("#ffffff");
+  
+
+
 
   function handleChangeRole(event) {
     setRoleInput(event.target.value);
@@ -27,7 +30,7 @@ function App() {
       role: roleInput,
       hex: hexInput,
       contrast: contrastInput,
-      contrastText: contrastInput,
+      contrastsText: contrastInput,
     };
     setColors([newColor, ...colors]);
 
@@ -45,7 +48,17 @@ function App() {
       console.log("New list will be:", filtered);
       return filtered;
     });
+
+   
   }
+   function ColorUpdater(id,updatedObject){
+       setColors((prevColors) =>
+    prevColors.map((color) =>
+      String(color.id) === String(id) ? updatedObject : color
+    ))
+      
+      
+   }
 
   return (
     <>
@@ -69,10 +82,14 @@ function App() {
           styleRole={{ color: color.contrastText }}
           styleColor={{ backgroundColor: color.hex }}
           hex={color.hex}
+          id={color.id}
           role={color.role}
           contrastsText={color.contrastText}
           key={color.id}
           clickDelete={() => DeleteButton(color.id)}
+          
+          updateNewColors={ColorUpdater}
+          
         />
       ))}
     </>
