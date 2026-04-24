@@ -48,14 +48,14 @@ return (
     onChange={(event) => setNewContrast(event.target.value)} 
   />
       <button onClick={() => {
-  // We send the ID and the new object with your states
+  
   updateNewColors(id, { 
     id: id, 
     role: newRole, 
     hex: newHex, 
     contrastText: newContrast 
   });
-  setIsEditable(false); // Close the edit view
+  setIsEditable(false); 
 }}>
   Update Color
 </button>
