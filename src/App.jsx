@@ -2,16 +2,21 @@ import { initialColors } from "./lib/colors";
 import Color from "./Components/Color/Color";
 import "./App.css";
 import { ColorForm } from "./Components/Color/ColorForm";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 function App() {
-  let [colors, setColors] = useState(initialColors);
-  let [roleInput, setRoleInput] = useState("");
+  let [colors, setColors] = useState(() => {
+    const savedColors = localStorage.getItem("colors");
+
+    return savedColors ? JSON.parse(savedColors) : initialColors;
+  });
+  let [roleInput, setRoleInput] = useState("some colors");
   let [hexInput, setHexInput] = useState("#123456");
   let [contrastInput, setContrastInput] = useState("#ffffff");
-  
 
-
+  useEffect(() => {
+    localStorage.setItem("colors", JSON.stringify(colors));
+  }, [colors]);
 
   function handleChangeRole(event) {
     setRoleInput(event.target.value);
@@ -48,17 +53,14 @@ function App() {
       console.log("New list will be:", filtered);
       return filtered;
     });
-
-   
   }
-   function ColorUpdater(id,updatedObject){
-       setColors((prevColors) =>
-    prevColors.map((color) =>
-      String(color.id) === String(id) ? updatedObject : color
-    ))
-      
-      
-   }
+  function ColorUpdater(id, updatedObject) {
+    setColors((prevColors) =>
+      prevColors.map((color) =>
+        String(color.id) === String(id) ? updatedObject : color,
+      ),
+    );
+  }
 
   return (
     <>
@@ -87,9 +89,7 @@ function App() {
           contrastsText={color.contrastText}
           key={color.id}
           clickDelete={() => DeleteButton(color.id)}
-          
           updateNewColors={ColorUpdater}
-          
         />
       ))}
     </>
